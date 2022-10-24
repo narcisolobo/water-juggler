@@ -1,14 +1,15 @@
+import { Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
 
 const DeleteButton = ({ project, handleDelete }) => {
-
   return (
-    <button
-      className="btn text-dark w-100 d-flex align-items-center btn-danger"
+    <Button
+      variant="danger"
+      className="text-dark w-100 d-flex align-items-center"
       onClick={() => handleDelete(project)}>
       <Trash className="h5 mb-0 me-2" />
       Remove Project
-    </button>
+    </Button>
   );
 };
 

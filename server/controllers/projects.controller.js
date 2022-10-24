@@ -10,6 +10,7 @@ const getAllProjects = (_, res) => {
   console.log('IN GET ALL PROJECTS');
   console.log('*******************');
   Project.find({})
+    .sort({dueDate: 1})
     .populate('manager')
     .then(projects => res.status(200).json(projects))
     .catch(err => {

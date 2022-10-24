@@ -1,12 +1,15 @@
 import axios from 'axios';
-import { SET_PROJECTS } from '../context/ProjectsContext';
 import { useEffect } from 'react';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import { useOutletContext } from 'react-router-dom';
-import useProjectsContext from '../hooks/useProjectsContext';
 import ProjectCard from '../components/ProjectCard';
+import { SET_PROJECTS } from '../context/ProjectsContext';
+import useProjectsContext from '../hooks/useProjectsContext';
 
 const YourProjects = () => {
-  const baseUrl = useOutletContext();
+  const { baseUrl } = useOutletContext();
   const { projects, dispatch } = useProjectsContext();
 
   useEffect(() => {
@@ -23,41 +26,45 @@ const YourProjects = () => {
   }, [dispatch, baseUrl, projects]);
 
   return (
-    <div className="row g-2">
-      <div className="col">
-        <div className="card bg-light">
-          <h5 className="card-header text-dark bg-primary">BACKLOG</h5>
-          <div className="card-body">
+    <Row className="g-2">
+      <Col>
+        <Card bg="primary" className='shadow'>
+          <Card.Header className="text-dark bg-primary h5">BACKLOG</Card.Header>
+          <Card.Body className="pb-2">
             {projects &&
               projects
                 .filter(p => p.status === 'backlog')
                 .map(p => <ProjectCard key={p._id} project={p} />)}
-          </div>
-        </div>
-      </div>
-      <div className="col">
-        <div className="card bg-light">
-          <h5 className="card-header text-dark bg-warning">IN PROGRESS</h5>
-          <div className="card-body">
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col>
+        <Card bg="warning" className='shadow'>
+          <Card.Header className="text-dark bg-warning h5">
+            IN PROGRESS
+          </Card.Header>
+          <Card.Body className="pb-2">
             {projects &&
               projects
                 .filter(p => p.status === 'in progress')
                 .map(p => <ProjectCard key={p._id} project={p} />)}
-          </div>
-        </div>
-      </div>
-      <div className="col">
-        <div className="card bg-light">
-          <h5 className="card-header text-dark bg-success">COMPLETED</h5>
-          <div className="card-body">
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col>
+        <Card bg="success" className='shadow'>
+          <Card.Header className="text-dark bg-success h5">
+            COMPLETED
+          </Card.Header>
+          <Card.Body className="pb-2">
             {projects &&
               projects
                 .filter(p => p.status === 'completed')
                 .map(p => <ProjectCard key={p._id} project={p} />)}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
