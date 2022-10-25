@@ -3,16 +3,16 @@ const userRouter = express.Router();
 
 import {
   getAllUsers,
+  updateUser,
+  getOneUser,
+  register,
+  login
 } from '../controllers/users.controller.js';
 
-userRouter.route('/')
-  .get(getAllUsers);
-  // .post(createUser);
-
-  
-// userRouter.route('/:id')
-//   .get(getOneUser)
-//   .put(updateUser)
-//   .delete(deleteUser);
+userRouter.get('/', getAllUsers);
+userRouter.put('/:id', updateUser);
+userRouter.get('/:id', getOneUser);
+userRouter.post('/register', register);
+userRouter.post('/login', login);
 
 export default userRouter;
