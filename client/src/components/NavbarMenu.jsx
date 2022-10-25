@@ -14,10 +14,10 @@ const NavbarMenu = ({ baseUrl }) => {
   }, [location]);
 
   return (
-    <Navbar expand="md" bg="dark" variant="dark" className="mb-3">
+    <Navbar expand="md" bg="primary" variant="dark" className="mb-3">
       <NewProjectModal baseUrl={baseUrl} show={show} setShow={setShow} />
       <Container>
-        <Navbar.Brand>Project Manager</Navbar.Brand>
+        <Navbar.Brand className="text-uppercase">Project Manager</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarNav" />
         <Navbar.Collapse id="navbarNav">
           <Nav className="ms-auto">

@@ -6,9 +6,6 @@ import User from '../models/user.model.js';
   @access  Public
 */
 const getAllUsers = (_, res) => {
-  console.log('*******************');
-  console.log('IN GET ALL USERS');
-  console.log('*******************');
   User.find({})
     .populate('projects')
     .then(users => res.status(200).json(users))

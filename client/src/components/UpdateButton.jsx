@@ -5,7 +5,7 @@ const UpdateButton = ({ project, handleUpdate }) => {
   return (
     <Button
       variant={project.status === 'backlog' ? 'warning' : 'success'}
-      className="text-dark w-100 d-flex justify-content-between align-items-center"
+      className="w-100 d-flex justify-content-between align-items-center"
       onClick={() => handleUpdate(project)}>
       {project.status === 'backlog' ? 'Start Project' : 'Move to Completed'}
       <ArrowRightCircle className="h5 mb-0" />

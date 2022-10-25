@@ -1,18 +1,19 @@
 import { Schema, model } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
-const nextYear = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+const fiveYears = new Date(new Date().setFullYear(new Date().getFullYear() + 5))
 
 const projectSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required.'],
       unique: true,
+      minLength: [2, 'Project name must be at least two characters.'],
+      maxLength: [45, 'Project name must be less than 45 characters.']
     },
     dueDate: {
       type: Date,
-      required: [true, 'Date is required.'],
-      max: nextYear,
+      min: [new Date(), 'Date must be in the future.'],
+      max: [fiveYears, 'Date must be less than 5 years from now.'],
     },
     status: {
       type: String,

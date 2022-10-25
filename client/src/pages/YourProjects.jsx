@@ -28,8 +28,8 @@ const YourProjects = () => {
   return (
     <Row className="g-2">
       <Col>
-        <Card bg="primary" className='shadow'>
-          <Card.Header className="text-dark bg-primary h5">BACKLOG</Card.Header>
+        <Card bg="secondary" className='shadow'>
+          <Card.Header className="text-dark h5">BACKLOG</Card.Header>
           <Card.Body className="pb-2">
             {projects &&
               projects

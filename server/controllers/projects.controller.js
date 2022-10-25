@@ -6,9 +6,6 @@ import Project from '../models/project.model.js';
   @access  Public
 */
 const getAllProjects = (_, res) => {
-  console.log('*******************');
-  console.log('IN GET ALL PROJECTS');
-  console.log('*******************');
   Project.find({})
     .sort({dueDate: 1})
     .populate('manager')
@@ -25,9 +22,6 @@ const getAllProjects = (_, res) => {
   @access  Public
 */
 const getAllProjectsByManager = (req, res) => {
-  console.log('*******************');
-  console.log('IN GET ALL PROJECTS BY MANAGER');
-  console.log('*******************');
   const { id } = req.params;
   Project.find({ manager: id })
     .populate('manager')
@@ -44,9 +38,6 @@ const getAllProjectsByManager = (req, res) => {
   @access  Public
 */
 const getOneProject = (req, res) => {
-  console.log('*******************');
-  console.log('IN GET ONE PROJECT');
-  console.log('*******************');
   const { id } = req.params;
   Project.findById(id)
     .populate('manager')
@@ -60,12 +51,22 @@ const getOneProject = (req, res) => {
   @access  Private
 */
 const createProject = (req, res) => {
-  console.log('*******************');
-  console.log('IN CREATE PROJECT');
-  console.log('*******************');
   Project.create(req.body)
     .then(project => res.status(201).json(project))
-    .catch(err => res.status(400).json(err));
+    .catch(err => {
+      if (err.name === 'ValidationError') {
+        const errors = {};
+        Object.keys(err.errors).forEach(key => {
+          errors[key] = {
+            path: err.errors[key].path,
+            message: err.errors[key].message,
+            value: err.errors[key].value,
+          }
+        })
+        console.log(errors);
+        res.status(400).json(errors)
+      }
+    });
 };
 
 /* 
@@ -75,9 +76,6 @@ const createProject = (req, res) => {
 */
 
 const updateProject = (req, res) => {
-  console.log('*******************');
-  console.log('IN UPDATE PROJECT');
-  console.log('*******************');
   const { id } = req.params;
   Project.findByIdAndUpdate(id, req.body, { new: true })
     .then(project => res.status(200).json(project))
@@ -91,9 +89,6 @@ const updateProject = (req, res) => {
 */
 
 const deleteProject = (req, res) => {
-  console.log('*******************');
-  console.log('IN DELETE PROJECT');
-  console.log('*******************');
   const { id } = req.params;
   Project.findByIdAndDelete(id)
     .then(result => res.status(200).json(result))

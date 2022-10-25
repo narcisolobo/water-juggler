@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Projects from './pages/Projects';
 import YourProjects from './pages/YourProjects';
-import './superhero.css';
+import './minty.css';
 
 const App = () => {
   return (
