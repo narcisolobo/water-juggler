@@ -39,7 +39,7 @@ userSchema
 
 userSchema.pre('validate', function (next) {
   if (this.password !== this.confirmPassword) {
-    this.invalidate('confirmPassword', 'Passwords do not match.');
+    this.invalidate('confirmPassword', 'Passwords do not match.', this._confirmPassword);
   }
   next();
 });

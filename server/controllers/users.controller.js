@@ -55,12 +55,25 @@ const register = (req, res) => {
     .then(user => {
       // Success. Generate JWT Token.
       const token = generateToken(user._id);
+      const username = user.username;
+      const id = user._id;
       // Log the user in as a courtesy.
       // Send the user and the token.
-      res.status(201).json({ token });
+      res.status(201).json({ username, token, id });
     })
     .catch(err => {
-      res.status(400).json(err);
+      if (err.name === 'ValidationError') {
+        const errors = {};
+        Object.keys(err.errors).forEach(key => {
+          errors[key] = {
+            path: err.errors[key].path,
+            message: err.errors[key].message,
+            value: err.errors[key].value,
+          };
+        });
+        console.log(errors);
+        res.status(400).json(errors);
+      }
     });
 };
 
@@ -93,12 +106,25 @@ const login = async (req, res) => {
 
     // Success. Generate JWT Token.
     const token = generateToken(user._id);
+    const username = user.username;
+    const id = user._id;
 
     // Log the user in. Send the user and the token.
-    res.status(201).json({ token });
+    res.status(200).json({ username, token, id });
   } catch (err) {
     res.status(400).json(err);
   }
 };
 
-export { getAllUsers, updateUser, getOneUser, register, login };
+/* 
+  @desc    Delete a user
+  @route   DELETE /api/users/:id
+  @access  Public
+*/
+const deleteUser = (req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then(deletedUser => res.status(200).json(deletedUser))
+    .catch(err => console.log(err));
+}
+
+export { getAllUsers, updateUser, getOneUser, register, login, deleteUser };

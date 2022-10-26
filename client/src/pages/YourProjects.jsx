@@ -1,21 +1,25 @@
 import axios from 'axios';
-import { useEffect } from 'react';
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Card from 'react-bootstrap/Card';
+import { useContext, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
+import { AuthContext } from '../context/AuthContext';
 import { SET_PROJECTS } from '../context/ProjectsContext';
 import useProjectsContext from '../hooks/useProjectsContext';
 
 const YourProjects = () => {
+  const { user } = useContext(AuthContext);
   const { baseUrl } = useOutletContext();
   const { projects, dispatch } = useProjectsContext();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(baseUrl);
+        const response = await axios.get(`${baseUrl}/by/manager`, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
         const { data } = response;
         dispatch({ type: SET_PROJECTS, payload: data });
       } catch (error) {
@@ -28,7 +32,7 @@ const YourProjects = () => {
   return (
     <Row className="g-2">
       <Col>
-        <Card bg="secondary" className='shadow'>
+        <Card bg="secondary" className="shadow">
           <Card.Header className="text-dark h5">BACKLOG</Card.Header>
           <Card.Body className="pb-2">
             {projects &&
@@ -39,7 +43,7 @@ const YourProjects = () => {
         </Card>
       </Col>
       <Col>
-        <Card bg="warning" className='shadow'>
+        <Card bg="warning" className="shadow">
           <Card.Header className="text-dark bg-warning h5">
             IN PROGRESS
           </Card.Header>
@@ -52,7 +56,7 @@ const YourProjects = () => {
         </Card>
       </Col>
       <Col>
-        <Card bg="success" className='shadow'>
+        <Card bg="success" className="shadow">
           <Card.Header className="text-dark bg-success h5">
             COMPLETED
           </Card.Header>

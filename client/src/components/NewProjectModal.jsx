@@ -1,21 +1,24 @@
 import axios from 'axios';
-import { Calendar3 } from 'react-bootstrap-icons';
-import { PencilSquare } from 'react-bootstrap-icons';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useContext, useState } from 'react';
+import { Calendar3 } from 'react-bootstrap-icons';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { PencilSquare } from 'react-bootstrap-icons';
 import useProjectsContext from '../hooks/useProjectsContext';
 import { CREATE_PROJECT } from '../context/ProjectsContext';
 
 const NewProjectModal = ({ baseUrl, show, setShow }) => {
+  const { user } = useContext(AuthContext);
   const { dispatch } = useProjectsContext();
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [formState, setFormState] = useState({
     name: '',
     dueDate: '',
+    manager: user.id,
   });
 
   const handleSubmit = async e => {
@@ -27,11 +30,14 @@ const NewProjectModal = ({ baseUrl, show, setShow }) => {
     }
 
     try {
-      const response = await axios.post(baseUrl, formState);
+      const response = await axios.post(baseUrl, formState, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       const { data } = response;
       dispatch({ type: CREATE_PROJECT, payload: data });
       setShow(false);
       setFormState({
+        ...formState,
         name: '',
         dueDate: '',
       });
@@ -41,14 +47,14 @@ const NewProjectModal = ({ baseUrl, show, setShow }) => {
       if (errors.name) {
         setFormState({
           ...formState,
-          name: errors.name.value
-        })
+          name: errors.name.value,
+        });
       }
       if (errors.dueDate) {
         setFormState({
           ...formState,
-          dueDate: errors.name.value
-        })
+          dueDate: errors.name.value,
+        });
       }
     }
   };
