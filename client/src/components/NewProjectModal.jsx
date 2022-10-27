@@ -18,7 +18,7 @@ const NewProjectModal = ({ baseUrl, show, setShow }) => {
   const [formState, setFormState] = useState({
     name: '',
     dueDate: '',
-    manager: user.id,
+    manager: user ? user.id : '',
   });
 
   const handleSubmit = async e => {

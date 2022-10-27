@@ -23,7 +23,7 @@ export const projectsReducer = (projects, action) => {
         } else {
           return project;
         }
-      })
+      });
       return updatedProjects;
     }
     case DELETE_PROJECT: {

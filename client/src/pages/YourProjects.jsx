@@ -26,14 +26,16 @@ const YourProjects = () => {
         console.log(error);
       }
     };
-    fetchProjects().catch(error => console.log(error));
-  }, [dispatch, baseUrl, projects]);
+    if (user) {
+      fetchProjects().catch(error => console.log(error));
+    }
+  }, [dispatch, baseUrl, projects, user]);
 
   return (
     <Row className="g-2">
       <Col>
         <Card bg="secondary" className="shadow">
-          <Card.Header className="text-dark h5">BACKLOG</Card.Header>
+          <Card.Header className="text-light h5">BACKLOG</Card.Header>
           <Card.Body className="pb-2">
             {projects &&
               projects
@@ -44,7 +46,7 @@ const YourProjects = () => {
       </Col>
       <Col>
         <Card bg="warning" className="shadow">
-          <Card.Header className="text-dark bg-warning h5">
+          <Card.Header className="text-light bg-warning h5">
             IN PROGRESS
           </Card.Header>
           <Card.Body className="pb-2">
@@ -57,7 +59,7 @@ const YourProjects = () => {
       </Col>
       <Col>
         <Card bg="success" className="shadow">
-          <Card.Header className="text-dark bg-success h5">
+          <Card.Header className="text-light bg-success h5">
             COMPLETED
           </Card.Header>
           <Card.Body className="pb-2">

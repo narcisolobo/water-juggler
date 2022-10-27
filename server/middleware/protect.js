@@ -19,6 +19,8 @@ const protect = async (req, res, next) => {
   const token = authorization.split(' ')[1];
 
   try {
+    console.log('***** IN PROTECT *****')
+    console.log(`Token: ${token}`)
     const { id } = jwt.verify(token, JWT_SECRET);
     req.userId = await User.findById(id).select('_id');
     next();

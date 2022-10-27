@@ -1,18 +1,20 @@
 import { createContext, useReducer, useEffect } from 'react';
 export const AuthContext = createContext();
 
-const initialUser = {
-  username: null,
-  id: '',
-  token: null,
-};
+const getUser = () => {
+  const userString = localStorage.getItem('user');
+  // console.log(`userString: ${userString}`);
+  const user = JSON.parse(userString);
+  // console.log(`User: ${user.username}`);
+  return user ? user : null;
+}
 
 const authReducer = (user, action) => {
   switch (action.type) {
     case 'LOGIN':
       return action.payload;
     case 'LOGOUT':
-      return initialUser;
+      return null;
     default:
       const err = new Error('Unexpected action type.');
       console.log(err);
@@ -21,7 +23,7 @@ const authReducer = (user, action) => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, dispatch] = useReducer(authReducer, initialUser);
+  const [user, dispatch] = useReducer(authReducer, getUser());
   const baseUrl = 'http://localhost:8000/api/users';
 
   useEffect(() => {
@@ -31,8 +33,6 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: 'LOGIN', payload: loggedUser });
     }
   }, []);
-
-  console.log(`Username: ${user.username}\nToken: ${user.token}\nID: ${user.id}`);
 
   return (
     <AuthContext.Provider value={{ user, dispatch, baseUrl }}>

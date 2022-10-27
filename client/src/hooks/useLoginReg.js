@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const useLoginReg = () => {
+  const goTo = useNavigate();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch, baseUrl } = useContext(AuthContext);
@@ -21,13 +23,14 @@ const useLoginReg = () => {
       // update auth context
       dispatch({ type: 'LOGIN', payload: user });
       setIsLoading(false);
-      return false;
+      goTo('/projects')
+      return false; // to close modal
 
     } catch (err) {
       setIsLoading(false);
       console.log(err);
       setErrors(err.response.data)
-      return true;
+      return true; // to keep modal open
     }
 
   };

@@ -1,16 +1,25 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import Projects from './pages/Projects';
-import YourProjects from './pages/YourProjects';
 import './minty.css';
+import { useContext } from 'react';
+import Projects from './pages/Projects';
+import { Route, Routes } from 'react-router-dom';
+import NavbarMenu from './components/NavbarMenu';
+import ProjectsHome from './pages/ProjectsHome';
+import YourProjects from './pages/YourProjects';
+import { AuthContext } from './context/AuthContext';
 
 const App = () => {
+  const { user } = useContext(AuthContext);
+
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to={'/projects'} />} />
-      <Route path="/projects" element={<Projects />}>
-        <Route index element={<YourProjects />} />
-      </Route>
-    </Routes>
+    <>
+      <NavbarMenu />
+      <Routes>
+        <Route path="/" element={<ProjectsHome />} />
+        <Route path="/projects" element={user ? <Projects /> : <ProjectsHome />}>
+          <Route index element={<YourProjects />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
 
