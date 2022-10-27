@@ -1,13 +1,15 @@
 import logo from '../logo.png';
+import Nav from 'react-bootstrap/Nav';
 import LoginModal from './LoginModal';
 import useLogout from '../hooks/useLogout';
+import Navbar from 'react-bootstrap/Navbar';
 import RegisterModal from './RegisterModal';
 import { getPath } from '../utilities/location';
 import NewProjectModal from './NewProjectModal';
+import Container from 'react-bootstrap/Container';
 import { AuthContext } from '../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
 
 const logoStyle = {
   width: '40px',

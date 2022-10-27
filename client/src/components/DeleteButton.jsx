@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { Trash } from 'react-bootstrap-icons';
 
 const DeleteButton = ({ project, handleDelete }) => {
